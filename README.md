@@ -122,10 +122,10 @@ Comando para criar controller e model:
 
 ### Endpoints:
 
-Route::get('/note',[NoteController::class, 'all']);>br> //pegar todos os dados
-Route::get('/notes/{id}',[NoteController::class, 'dados1']); <br>//pegar dados especifico
-Route::post('/note',[NoteController::class, 'adicionar']);<br> //rota de adicionar
-Route::put('/note/edit/{id}',[NoteController::class, 'edit']);<br> //editar
+Route::get('/note',[NoteController::class, 'all']); //pegar todos os dados<br>
+Route::get('/notes/{id}',[NoteController::class, 'dados1']); //pegar dados especifico<br>
+Route::post('/note',[NoteController::class, 'adicionar']); //rota de adicionar<br>
+Route::put('/note/edit/{id}',[NoteController::class, 'edit']); //editar<br>
 Route::delete('/note/delete/{id}',[NoteController::class,  'delete']); //deleta
 
 
