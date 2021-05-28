@@ -93,43 +93,8 @@ $php artisan route:cache
 - Ferramenta de interação com o projeto, objetos podem ser criados e salvos em banco de dados, ótimo para testes sem ter que criar telas:
 ```bash
 $ php artisan tinker
-```
 
-
-
-
-- Para adicionar uma tag 3 ao post 1 pelo tinker basta:
-```bash
-$post = App\Post::find(1);
-$post->tags()->attach(3);
-$post->tags;
-```
-
-- Para "sincronizar" os idsa de tags com um post, pode ser usada a função sync(array()) que realiza o attach e detach das chaves estrangeiras, removendo ids que não conferiram com a lista informada no argumento de sua função:
-```bash
-$post->tags()->sync([1, 3, 5, 7]);
-```
-
-
-
-### Estruturas importantes
-- app/Http/routes.php: arquivo que define as rotas da aplicação.
-- app/Http/Controllers: ficam os controllers da aplicação, o comando para gerar uma estrutura de um controlador é:
-```bash
-$ php artisan make:controller TestController
-```
-- resources: ficam as views da aplicação. Deixe imagens, CSS, JS e fontes na /public.
-- As Models serão criadas na raiz de /app, para gerar uma model:
-```bash
-$ php artisan make:model Post
-```
-
-- Para gerar uma model + sua migration do banco de dados use o parâmetro -m:
-```bash
-$ php artisan make:model Post -m
-```
  
-
 ### Banco de dados
 Configure o  .env 
 DB_CONNECTION=mysql
@@ -157,10 +122,10 @@ Comando para criar controller e model:
 
 ### Endpoints:
 
-Route::get('/note',[NoteController::class, 'all']); //pegar todos os dados
-Route::get('/notes/{id}',[NoteController::class, 'dados1']); //pegar dados especifico
-Route::post('/note',[NoteController::class, 'adicionar']); //rota de adicionar
-Route::put('/note/edit/{id}',[NoteController::class, 'edit']); //editar
+Route::get('/note',[NoteController::class, 'all']);>br> //pegar todos os dados
+Route::get('/notes/{id}',[NoteController::class, 'dados1']); <br>//pegar dados especifico
+Route::post('/note',[NoteController::class, 'adicionar']);<br> //rota de adicionar
+Route::put('/note/edit/{id}',[NoteController::class, 'edit']);<br> //editar
 Route::delete('/note/delete/{id}',[NoteController::class,  'delete']); //deleta
 
 
