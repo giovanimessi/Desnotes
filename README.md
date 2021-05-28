@@ -10,17 +10,17 @@
 ## Crud Laravel
 
 
-# Laravel PHP Framework - Blog (referência de estudos)
+# Laravel PHP Framework
 
 
 ## O que é este projeto?
-O projeto tem como objetivo disponibilizar os códigos para o curso laravel-express e ser um guia de referência/testes sobre Laravel para o autor.
+O projeto tem como objetivo aprendizagem.
 
 
 ## Para rodar este projeto
 ```bash
-$ git clone https://github.com/fabiosperotto/laravel-blog
-$ cd laravel-blog
+$ git clone https://github.com/giovanimessi/Desnotes.git
+$ cd laravel-Desnotes
 $ composer install
 $ cp .env.example .env
 $ php artisan key:generate
@@ -28,20 +28,19 @@ $ php artisan migrate #antes de rodar este comando verifique sua configuracao co
 $ php artisan serve
 $ php artisan db:seed #para gerar os seeders, dados de teste
 ```
-Acesssar pela url: http://localhost:8000/blog
+Acesssar pela url: http://127.0.0.1:8000/api/note
 
 
 
 ## Pré-requisitos
-- PHP >= 5.5.9
+- PHP >= 7.3.0
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
 
 
-##Dependências
-###illuminate/html
+
 
 Para Laravel 5.1:
 
