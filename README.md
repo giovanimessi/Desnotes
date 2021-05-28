@@ -39,25 +39,6 @@ Acesssar pela url: http://127.0.0.1:8000/api/note
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
 
-
-
-
-Para Laravel 5.1:
-
-- composer require illuminate/html
-- Registrar o service provider em config/app.php (\Illuminate\Html\HtmlServiceProvider::class)
-- Ainda em config/app.php adicionar os 2 aliases necessários (ver arquivo neste projeto)
-
-Para Versões mais novas:
-
-- O pacote illuminate/html foi abandonado, usar [laravelcollective/html](https://packagist.org/packages/laravelcollective/html)
-
-
-
-## Anotações/Extras
-As seções a seguir são anotações sobre o framework e podem não refletir a aplicação (blog) em desenvolvimento.
-
-
 Composer:
 ```bash
 $ curl -sS https://getcomposer.org/installer | php
@@ -82,16 +63,16 @@ $ source ~/.bashrc
 ```
 
 
-### Criação de um projeto clean
+### Criação de um projeto 
 ```bash
 $ laravel new nome_projeto
 $ cd nome_projeto
 $ php artisan serve
 ```
 
-O último comando serve para testar a instalação, se em localhost:8000 aparecer LARAVEL escrito na página, tudo está ok. Ao utilizar o comando laravel new automaticamente a última versão do Laravel será baixada. Até a escrita deste documento o comando configura o Laravel 5.2. Caso deseja instalar laravel 5.1 LTS, substitua aquele primeiro comando por:
+O último comando serve para testar a instalação, se em localhost:8000 aparecer LARAVEL escrito na página, tudo está ok. Ao utilizar o comando laravel new automaticamente a última versão do Laravel será baixada. Até a escrita deste documento o comando configura o Laravel 7.3 Caso deseja instalar laravel como outras versões, substitua aquele primeiro comando por:
 ```bash
-$ composer create-project --prefer-dist laravel/laravel nome-do-projeto 5.1.*
+$ composer create-project --prefer-dist laravel/laravel nome-do-projeto versao*
 ```
 
 ### Artisan
@@ -102,10 +83,9 @@ $ php artisan
 - Remover arquivos de cache criado pelo Laravel:
 ```bash
 $ php artisan clear-compiled 
+$php artisan route:cache
 ```
-- Colocar sistema em modo manutenção:
-```bash
-$ php artisan down 
+
 ```
 
 
@@ -115,8 +95,7 @@ $ php artisan down
 $ php artisan tinker
 ```
 
-- A ilustração a seguir demonstra o uso do tinker com objetos do tipo Post salvando no banco de dados:
-![Tinker exemplo](public/image/tinker.png)
+
 
 
 - Para adicionar uma tag 3 ao post 1 pelo tinker basta:
@@ -152,9 +131,13 @@ $ php artisan make:model Post -m
  
 
 ### Banco de dados
-- Em config/database.php existem as configurações de conexão com variados tipos de banco de dados. Na linha 29, 'default' => env('DB_CONNECTION', 'mysql'), a instrução define que irá procurar por DB_CONNECTION e caso não encontrar, seleciona a conexão mysql. É possível trocar aqui o driver, mas as configurações ficam no .env na raíz do projeto.
-- O Laravel se baseia em migrations, ou seja, é possível criar arquivos com toda a infraestrutura das tabelas para que, futuramente, o framework gere o banco de dados. Isto faz com que não seja necessário criar o banco de dados manualmente, facilita o controle das modificações de banco e registros padrão de testes podem ser utilizados/gerados.
-- Para gerar uma tabela com migrations, segue o comando (o flag --create define o nome real da tabela no banco):
+Configure o  .env 
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=****
+DB_DATABASE=******
+DB_USERNAME=******
+DB_PASSWORD=
 ```bash
 $ php artisan make:migration create_table_post --create=posts
 ```
@@ -167,53 +150,22 @@ $ php artisan migrate
 
 
 
-### Gerador de dados fake
-- Podemos usar a classe [Faker](https://github.com/fzaninotto/Faker#formatters) que vem no Laravel a partir da versão 5.1 para gerar dados para o banco de forma automatica e aleatória (poupa trabalho para testar aplicação). Em /database/factories/ModelFactory.php podemos descrever qual Model terá esse gerador e como os dados serão gerados para cada atributo do objeto. Detalhes da função feita para os posts podem ser visualizadas neste projeto. 
-- Com o Tinker podemos gerar um objeto com os dados fake e salvá-lo na base de dados:
-```bash
->>> factory('App\Post')->make();
->>> factory('App\Post')->create();
-```
-- Ou podemos gerar 5 objetos com dados fake e já submetê-los para a base:
-```bash
->>> factory('App\Post', 5)->create();
-```
-- Uma forma, automatizada, de gerar dados fake para o banco de dados é a utilização de Seeds (/database/seeds/DatabaseSeeder.php), que que podem limpar a base de dados e injetar os dados especificados pela factory anteriormente. Com o artisan podemos criar um table seeder como:
-```bash
-$ php artisan make:seeder PostsTableSeeder
-```
-- Um arquivo com o nome especificado (PostsTableSeeder), será criado no diretório de seeds. Neste projeto perceberá que o seeder pode realizar o truncate na tabela e insere 12 registros geradros pela Faker que configuramos na Factory anteriormente. Não se esqueça de editar o arquivo DatabaseSeeder.php e adicionar a função que realiza o call() do seeder (desta forma também podemos criar seeders mas chamá-los somente de acordo com a necessidade). Para executar todos os seeders:
-```bash
-$ php artisan db:seed
-```
+Comando para criar controller e model:
+
+- php artisan make:controller PostRequest - comando para criar os controllers
+- php artisan make:model Post - comando para criar os Models
+
+### Endpoints:
+
+Route::get('/note',[NoteController::class, 'all']); //pegar todos os dados
+Route::get('/notes/{id}',[NoteController::class, 'dados1']); //pegar dados especifico
+Route::post('/note',[NoteController::class, 'adicionar']); //rota de adicionar
+Route::put('/note/edit/{id}',[NoteController::class, 'edit']); //editar
+Route::delete('/note/delete/{id}',[NoteController::class,  'delete']); //deleta
 
 
-##Validação de Formulários
-Para validar formulários, interceptar a request e validar os campos:
-
-No back-end:
-
-- php artisan make:request PostRequest
-- PostRequest será criado em app/Htpp/Requests
-- Preencher o método rules com regras de validação
-- Enquanto o método authorize estiver retornando false, não conseguirá efetuar o request
-
-No front-end:
-
-- no formulário, verificar se existe $errors->any(), iterar no array que exibirá mensagens do framework sobre os erros encontrados na validação definida nas rules do back-end (ver resources/views/admin/posts/create.blade.php)
 
 
-## Sessões
-O Laravel trabalha com middlewares controllers e traits que cuidam com a autenticação de usuários. Ver Controller/Auth e Illuminate/Foundation/Auth/AuthenticatesUsers.
-
-- Verifique se possui os diretórios em Http/Controller/Auth e resources/views/auth (4 views), pois o Laravel já possui uma estrutura padrão para login. Se não possuir, execute o comando: php artisan make:auth
-- Adicione as rotas para autenticação (ver routes.php deste projeto):
-```bash
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController'
-]);
-```
 
 
 
